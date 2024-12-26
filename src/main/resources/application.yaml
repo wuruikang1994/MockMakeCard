@@ -1,0 +1,26 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 56007
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: dm.jdbc.driver.DmDriver
+    username: FAMP_GUANGXI
+    password: m2@9tRwZ
+    #password: admin
+    url: jdbc:dm://secloud-dm:5236/FAMP_GUANGXI?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8
+    servlet:
+      multipart:
+        maxFileSize: "200MB"
+        maxRequestSize: "200MB"
+  main:
+    scan-base-packages:
+        - com.example.test.data.mapper
+        - com.example.test.makeCard.controller
+        - com.example.test.makeCard.service
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

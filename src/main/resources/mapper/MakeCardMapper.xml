@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test.data.mapper.MakeCardMapper">
+    <select id="getUserInfo" resultType="com.example.test.makeCard.vo.PassportCheckVo">
+        select
+            gm.member_id AS memberId,
+            gm.PERSON_NAME AS memberName,
+            p.CARD_NO AS identitiesNum,
+            gm.PERSON_NAME AS memberName,
+            DATE_FORMAT(p.BIRTHDAY,'%Y%m%d') AS birthDate,
+            case p.sex when '124002' THEN 'F' ELSE 'M' END AS sex,
+            p.BIRTHPLACE AS birthPlace
+        from
+            FA_HM_PB_PASSPORT_MAKE pm
+                LEFT JOIN
+            FA_HM_PB_GROUP_MEMBER gm ON pm.member_id = gm.member_id
+                LEFT JOIN
+            FA_BI_PERSON p ON gm.PERSON_ID = p.PERSON_ID
+        WHERE
+            pm.passport_id = #{passportId}
+    </select>
+
+
+    <select id="getGroupInfo" resultType="com.example.test.makeCard.vo.GroupInfoVo">
+        select
+            g.group_id as groupNo
+        from
+            fa_hm_pb_group g
+        where
+            g.group_id = #{groupId}
+    </select>
+
+    <select id="getMemberInfo" resultType="com.example.test.makeCard.vo.MemberVo">
+        select
+            gm.member_id as memberNo
+        from
+            fa_hm_pb_group_member gm
+        where
+            gm.group_id = #{groupId}
+    </select>
+
+    <select id="getVisa" resultType="com.example.test.makeCard.vo.visaVo">
+        select
+            CASE gp.place_name WHEN '204033' THEN 'HKG' ELSE 'MAC' END as visitPlaceCode
+        from
+            fa_hm_pb_group_place gp
+        where
+            gp.group_id = #{groupId}
+    </select>
+</mapper>
